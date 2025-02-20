@@ -1543,4 +1543,115 @@ nav ul li a:hover {
     background: #c0392b;
     transform: translateY(-2px);
     box-shadow: 0 2px 10px rgba(231, 76, 60, 0.3);
+}
+
+/* Add these styles for the breathing tabs */
+.breathing-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 0.5rem;
+}
+
+.tab-btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    background: none;
+    font-size: 1.1rem;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #4a90e2;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.tab-btn.active {
+    color: #4a90e2;
+}
+
+.tab-btn.active::after {
+    transform: scaleX(1);
+}
+
+.breathing-tab {
+    display: none;
+}
+
+.breathing-tab.active {
+    display: block;
+}
+
+/* Breathing history styles */
+.breathing-history {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.history-entry {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.history-entry:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.history-emotion {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.history-date {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.history-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.history-pattern {
+    color: #4a90e2;
+}
+
+.history-duration {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.no-history {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    padding: 2rem;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 } 

@@ -74,21 +74,32 @@
 
         <section id="chat">
             <h2>Breathing Exercise</h2>
-            <div id="breathing-container">
-                <div class="emotion-selector">
-                    <select id="emotion-select" onchange="handleEmotionChange()">
-                        <option value="">Select how you're feeling...</option>
-                        <option value="anxious">Anxious</option>
-                        <option value="angry">Angry</option>
-                        <option value="stressed">Stressed</option>
-                        <option value="sad">Sad</option>
-                        <option value="overwhelmed">Overwhelmed</option>
-                        <option value="calm">Seeking Calm</option>
-                    </select>
+            <div class="breathing-tabs">
+                <button class="tab-btn active" onclick="switchBreathingTab('exercise')">Exercise</button>
+                <button class="tab-btn" onclick="switchBreathingTab('history')">History</button>
+            </div>
+            <div id="breathing-exercise-tab" class="breathing-tab active">
+                <div id="breathing-container">
+                    <div class="emotion-selector">
+                        <select id="emotion-select" onchange="handleEmotionChange()">
+                            <option value="">Select how you're feeling...</option>
+                            <option value="anxious">Anxious</option>
+                            <option value="angry">Angry</option>
+                            <option value="stressed">Stressed</option>
+                            <option value="sad">Sad</option>
+                            <option value="overwhelmed">Overwhelmed</option>
+                            <option value="calm">Seeking Calm</option>
+                        </select>
+                    </div>
+                    <div id="exercise-description"></div>
+                    <div id="breathing-content">
+                        <!-- Breathing exercise will be inserted here -->
+                    </div>
                 </div>
-                <div id="exercise-description"></div>
-                <div id="breathing-content">
-                    <!-- Breathing exercise will be inserted here -->
+            </div>
+            <div id="breathing-history-tab" class="breathing-tab">
+                <div class="breathing-history">
+                    <div id="breathing-entries"></div>
                 </div>
             </div>
         </section>

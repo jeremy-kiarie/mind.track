@@ -199,11 +199,31 @@ function runBreathingCycle(pattern) {
     endSessionBtn.textContent = 'End Session';
     document.querySelector('.breathing-exercise').appendChild(endSessionBtn);
 
-    // Add event listener for end session
+    // Fix end session handler
     endSessionBtn.addEventListener('click', () => {
         clearInterval(sessionInterval);
-        showBreathingCircle(Object.keys(breathingPatterns).find(key => 
-            breathingPatterns[key] === pattern));
+        
+        // Get current emotion from pattern
+        const currentEmotion = Object.entries(breathingPatterns).find(([_, p]) => p === pattern)[0];
+        
+        // Save session to history
+        const history = JSON.parse(localStorage.getItem('breathingHistory') || '[]');
+        const session = {
+            emotion: currentEmotion,
+            patternName: pattern.name,
+            timestamp: new Date().toISOString(),
+            duration: sessionTime
+        };
+        
+        history.unshift(session); // Add to beginning of array
+        localStorage.setItem('breathingHistory', JSON.stringify(history));
+        
+        // Update history immediately
+        updateBreathingHistory();
+        
+        // Reset the exercise view
+        handleEmotionChange();
+        document.getElementById('emotion-select').value = '';
     });
 
     function breathingCycle() {
@@ -245,4 +265,76 @@ function runBreathingCycle(pattern) {
     }
 
     breathingCycle();
+}
+
+// Add these new functions
+function switchBreathingTab(tab) {
+    document.querySelectorAll('.breathing-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    
+    document.getElementById(`breathing-${tab}-tab`).classList.add('active');
+    document.querySelector(`.tab-btn[onclick*="${tab}"]`).classList.add('active');
+    
+    if (tab === 'history') {
+        updateBreathingHistory();
+    }
+}
+
+function updateBreathingHistory() {
+    const entries = JSON.parse(localStorage.getItem('breathingHistory') || '[]');
+    const container = document.getElementById('breathing-entries');
+    
+    if (entries.length === 0) {
+        container.innerHTML = '<div class="no-history">No breathing sessions recorded yet.</div>';
+        return;
+    }
+    
+    container.innerHTML = entries.reverse().map(entry => `
+        <div class="history-entry">
+            <div class="history-header">
+                <span class="history-emotion">${entry.emotion}</span>
+                <span class="history-date">${formatDate(entry.timestamp)}</span>
+            </div>
+            <div class="history-details">
+                <div class="history-pattern">
+                    <strong>${entry.patternName}</strong>
+                </div>
+                <div class="history-duration">
+                    Duration: ${formatDuration(entry.duration)}
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function formatDuration(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+// Add this function for formatting dates in the history
+function formatDate(timestamp) {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diff = now - date;
+    
+    // If less than 24 hours ago, show relative time
+    if (diff < 24 * 60 * 60 * 1000) {
+        if (diff < 60 * 60 * 1000) {
+            const minutes = Math.floor(diff / (60 * 1000));
+            return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
+        } else {
+            const hours = Math.floor(diff / (60 * 60 * 1000));
+            return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
+        }
+    }
+    
+    // Otherwise show the date
+    return date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit'
+    });
 }
