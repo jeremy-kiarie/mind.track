@@ -252,44 +252,6 @@ section.active {
     color: #333;
 }
 
-/* Style the mood chart */
-.mood-history {
-    /* Remove these style blocks */
-}
-
-.mood-entries {
-    /* Remove these style blocks */
-}
-
-.mood-entry {
-    /* Remove these style blocks */
-}
-
-.mood-info {
-    /* Remove these style blocks */
-}
-
-.mood-emoji {
-    /* Remove these style blocks */
-}
-
-.mood-text {
-    /* Remove these style blocks */
-}
-
-.mood-time {
-    /* Remove these style blocks */
-}
-
-.mood-notes {
-    /* Remove these style blocks */
-}
-
-.delete-btn {
-    /* Remove these style blocks */
-}
-
-/* Update mood slider styles */
 .mood-slider-container {
     background: white;
     padding: 2rem;
