@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindTrack - Mental Health Companion</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="mentalhealth ico.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="mentalhealth ico.png">
+    <link rel="apple-touch-icon" href="mentalhealth ico.png">
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">MindTrack</div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#tracker">Mood Tracker</a></li>
+                <li><a href="#chat">AI Counselor</a></li>
+                <li><a href="#journal">Journal</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="active">
+            <h1>Welcome to MindTrack</h1>
+            <p>Your personal mental health companion</p>
+            <div class="quick-actions">
+                <button data-section="tracker">Track Mood</button>
+                <button data-section="chat">Talk to AI</button>
+            </div>
+        </section>
+
+        <section id="tracker">
+            <h2>Mood Tracker</h2>
+            <div class="mood-input">
+                <h3>How are you feeling today?</h3>
+                <div class="mood-slider-container">
+                    <div class="mood-slider-labels">
+                        <span>😢</span>
+                        <span>😔</span>
+                        <span>😐</span>
+                        <span>🙂</span>
+                        <span>😊</span>
+                    </div>
+                    <input type="range" 
+                           id="mood-slider" 
+                           min="1" 
+                           max="5" 
+                           value="3" 
+                           class="mood-slider">
+                    <div class="mood-description" id="mood-description">Okay</div>
+                </div>
+                <div class="mood-notes">
+                    <textarea id="mood-notes" 
+                             placeholder="Add notes about your mood (optional)..."
+                             rows="3"></textarea>
+                </div>
+                <button onclick="trackMood()" class="track-mood-btn">Track This Mood</button>
+                <div id="mood-chart"></div>
+                <div class="mood-history">
+                    <h3>Mood History</h3>
+                    <div class="mood-entries" id="mood-entries">
+                        <!-- Mood entries will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="chat">
+            <h2>AI Counselor</h2>
+            <div class="chat-container">
+                <div class="chat-messages" id="chat-messages"></div>
+                <div class="chat-input">
+                    <input type="text" id="user-input" placeholder="Type your message...">
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="journal">
+            <div class="book-container">
+                <div class="book">
+                    <div class="book-cover" id="book-cover">
+                        <h2>My Journal</h2>
+                        <p class="book-subtitle">Personal Reflections</p>
+                    </div>
+                    <div class="book-content">
+                        <div class="page left-page">
+                            <div class="journal-entries" id="journal-entries">
+                                <!-- Journal entries will be populated here -->
+                            </div>
+                        </div>
+                        <div class="page right-page">
+                            <div class="new-entry-page">
+                                <div class="entry-header">
+                                    <input type="text" id="entry-title" placeholder="Entry Title">
+                                    <span class="date-stamp"></span>
+                                </div>
+                                <textarea id="journal-entry" placeholder="Write your thoughts..."></textarea>
+                                <div class="entry-footer">
+                                    <button onclick="saveJournalEntry()" class="save-btn">Save Entry</button>
+                                    <div class="entry-tags">
+                                        <input type="text" id="entry-tags" placeholder="Add tags (comma separated)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="book-spine"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+
