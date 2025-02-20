@@ -193,6 +193,19 @@ function runBreathingCycle(pattern) {
         sessionTimer.textContent = `${minutes}:${seconds}`;
     }, 1000);
 
+    // Add end session button
+    const endSessionBtn = document.createElement('button');
+    endSessionBtn.className = 'end-session-btn';
+    endSessionBtn.textContent = 'End Session';
+    document.querySelector('.breathing-exercise').appendChild(endSessionBtn);
+
+    // Add event listener for end session
+    endSessionBtn.addEventListener('click', () => {
+        clearInterval(sessionInterval);
+        showBreathingCircle(Object.keys(breathingPatterns).find(key => 
+            breathingPatterns[key] === pattern));
+    });
+
     function breathingCycle() {
         // Inhale
         text.textContent = 'Inhale...';
