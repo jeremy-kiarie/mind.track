@@ -45,10 +45,13 @@ function showSection(sectionId) {
 }
 
 // Track mood
-function trackMood(mood) {
+function trackMood() {
+    const moodSlider = document.getElementById('mood-slider');
+    const moodNotes = document.getElementById('mood-notes');
     const timestamp = new Date();
     const moodEntry = {
-        mood: mood,
+        mood: getMoodText(parseInt(moodSlider.value)),
+        notes: moodNotes.value,
         timestamp: timestamp.toISOString(),
         id: Date.now()
     };
@@ -58,33 +61,11 @@ function trackMood(mood) {
     moods.push(moodEntry);
     localStorage.setItem('moods', JSON.stringify(moods));
     
-    updateMoodHistory();
-}
-
-function updateMoodHistory() {
-    const moodEntries = document.getElementById('mood-entries');
-    const moods = JSON.parse(localStorage.getItem('moods') || '[]');
+    // Clear the form
+    moodNotes.value = '';
     
-    moodEntries.innerHTML = moods.reverse().map(entry => `
-        <div class="mood-entry" data-id="${entry.id}">
-            <div class="mood-info">
-                <span class="mood-emoji">${getMoodEmoji(entry.mood)}</span>
-                <span class="mood-text">${entry.mood}</span>
-                <span class="mood-time">${formatDate(entry.timestamp)}</span>
-            </div>
-            <button onclick="deleteMoodEntry(${entry.id})" class="delete-btn">
-                <span aria-hidden="true">×</span>
-                <span class="sr-only">Delete entry</span>
-            </button>
-        </div>
-    `).join('');
-}
-
-function deleteMoodEntry(id) {
-    const moods = JSON.parse(localStorage.getItem('moods') || '[]');
-    const updatedMoods = moods.filter(entry => entry.id !== id);
-    localStorage.setItem('moods', JSON.stringify(updatedMoods));
-    updateMoodHistory();
+    // Show confirmation
+    alert('Mood tracked successfully!');
 }
 
 // Update mood chart
@@ -602,53 +583,10 @@ function getMoodFromSlider() {
     return moods[value - 1];
 }
 
-function trackMood() {
-    const mood = getMoodFromSlider();
-    const notes = document.getElementById('mood-notes').value.trim();
-    const timestamp = new Date();
-    
-    const moodEntry = {
-        id: Date.now(),
-        mood: mood,
-        notes: notes,
-        timestamp: timestamp.toISOString()
-    };
-    
-    // Get existing moods from localStorage
-    const moods = JSON.parse(localStorage.getItem('moods') || '[]');
-    moods.unshift(moodEntry); // Add to beginning of array
-    localStorage.setItem('moods', JSON.stringify(moods));
-    
-    // Clear the form
-    document.getElementById('mood-notes').value = '';
-    
-    // Update the display
-    updateMoodHistory();
-    showMoodConfirmation();
+function getMoodText(value) {
+    const moods = ['terrible', 'bad', 'okay', 'good', 'great'];
+    return moods[value - 1];
 }
-
-function showMoodConfirmation() {
-    const confirmation = document.createElement('div');
-    confirmation.className = 'save-confirmation';
-    confirmation.textContent = 'Mood tracked successfully!';
-    
-    document.querySelector('.mood-input').appendChild(confirmation);
-    
-    setTimeout(() => {
-        confirmation.remove();
-    }, 2000);
-}
-
-function formatDate(timestamp) {
-    const date = new Date(timestamp);
-    return date.toLocaleDateString('en-US', {
-        weekday: 'short',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
-} 
 
 // Add these new visualization functions
 function createMoodChart(type) {
