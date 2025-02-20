@@ -1,3 +1,31 @@
+// Add this at the beginning of your script.js
+document.addEventListener('DOMContentLoaded', function() {
+    // Set up navigation
+    document.querySelectorAll('nav a, .quick-actions button').forEach(element => {
+        element.addEventListener('click', function(e) {
+            e.preventDefault();
+            const sectionId = this.getAttribute('href')?.substring(1) || 
+                             this.getAttribute('data-section');
+            showSection(sectionId);
+        });
+    });
+
+    // Set up mood slider
+    const moodSlider = document.getElementById('mood-slider');
+    const moodDescription = document.getElementById('mood-description');
+    
+    if (moodSlider) {
+        moodSlider.addEventListener('input', function() {
+            const value = parseInt(this.value);
+            moodDescription.textContent = getMoodText(value);
+        });
+    }
+
+    // Show initial section based on URL hash or default to home
+    const initialSection = window.location.hash.substring(1) || 'home';
+    showSection(initialSection);
+});
+
 // Remove all user-related code and simplify to core functionality
 let moodData = JSON.parse(localStorage.getItem('moodData')) || [];
 
@@ -5,12 +33,12 @@ let moodData = JSON.parse(localStorage.getItem('moodData')) || [];
 function showSection(sectionId) {
     if (!sectionId) return;
     
-    // Remove 'active' class from all sections
+    // Hide all sections
     document.querySelectorAll('section').forEach(section => {
         section.classList.remove('active');
     });
     
-    // Add 'active' class to target section
+    // Show target section
     const targetSection = document.getElementById(sectionId);
     if (targetSection) {
         targetSection.classList.add('active');

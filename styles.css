@@ -36,6 +36,7 @@ nav ul {
 }
 
 nav ul li a {
+    display: inline-block;
     text-decoration: none;
     color: #333;
     padding: 0.5rem 1rem;
@@ -46,6 +47,7 @@ nav ul li a {
 
 nav ul li a:hover {
     background-color: #f0f2f5;
+    cursor: pointer;
 }
 
 main {
@@ -64,7 +66,7 @@ section {
 }
 
 section.active {
-    display: block;
+    display: block !important;
 }
 
 .mood-buttons {
@@ -344,8 +346,18 @@ button:hover {
 }
 
 .quick-actions button {
-    margin: 0.5rem;
-    font-size: 1.1rem;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #4a90e2;
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.quick-actions button:hover {
+    background-color: #357abd;
+    transform: translateY(-2px);
 }
 
 /* Book-style Journal */
@@ -1464,4 +1476,52 @@ textarea {
 
 .hero-image:hover {
     transform: scale(1.02);
+}
+
+/* Fix cursor styles */
+button, 
+select, 
+.mood-slider {
+    cursor: pointer;
+}
+
+/* Ensure sections are properly hidden/shown */
+section {
+    display: none;
+}
+
+section.active {
+    display: block !important;
+}
+
+/* Fix navigation links */
+nav ul li a {
+    display: inline-block;
+    text-decoration: none;
+    color: #333;
+    padding: 0.5rem 1rem;
+    margin: 0 0.5rem;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: #f0f2f5;
+    cursor: pointer;
+}
+
+/* Fix quick action buttons */
+.quick-actions button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #4a90e2;
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.quick-actions button:hover {
+    background-color: #357abd;
+    transform: translateY(-2px);
 } 
