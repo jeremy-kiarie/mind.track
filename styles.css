@@ -7,12 +7,13 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
-    background-color: #f0f2f5;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
 }
 
 header {
-    background-color: #ffffff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background-color: var(--bg-secondary);
+    box-shadow: 0 2px 5px var(--shadow-color);
     padding: 1rem;
 }
 
@@ -58,10 +59,10 @@ main {
 
 section {
     display: none;
-    background-color: #ffffff;
+    background-color: var(--bg-secondary);
     padding: 2rem;
     border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px var(--shadow-color);
     margin-bottom: 2rem;
 }
 
@@ -128,20 +129,107 @@ section.active {
 }
 
 .journal-container {
-    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.journal-entry {
-    background-color: #f8f9fa;
-    padding: 1.5rem;
+.journal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.journal-entries {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    height: 600px;
+    overflow-y: auto;
+}
+
+.new-entry {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+}
+
+.entry-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#entry-title {
+    font-size: 1.5rem;
+    padding: 0.8rem;
+    border: 1px solid #e0e0e0;
     border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+#journal-entry {
+    min-height: 300px;
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    resize: vertical;
+    font-size: 1rem;
+    line-height: 1.6;
+    font-family: inherit;
+}
+
+#entry-title:focus,
+#journal-entry:focus,
+#entry-tags:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
+}
+
+.entry-footer {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+#entry-tags {
+    flex: 1;
+    padding: 0.8rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+}
+
+.save-btn {
+    padding: 0.8rem 2rem;
+    background: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.save-btn:hover {
+    background: #357abd;
+    transform: translateY(-2px);
+}
+
+/* Journal entry styles */
+.journal-entry {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 12px;
     margin-bottom: 1.5rem;
-    border-left: 4px solid #4a90e2;
-    transition: transform 0.2s ease;
+    transition: transform 0.3s ease;
 }
 
 .journal-entry:hover {
-    transform: translateX(5px);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .entry-header {
@@ -151,50 +239,76 @@ section.active {
     margin-bottom: 1rem;
 }
 
-.entry-date {
+.entry-title {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.entry-timestamp {
     color: #666;
     font-size: 0.9rem;
 }
 
-.entry-mood {
-    font-size: 1.5rem;
-}
-
 .entry-content {
-    white-space: pre-wrap;
+    color: #34495e;
     line-height: 1.6;
-    margin-bottom: 1rem;
+    margin: 1rem 0;
+    white-space: pre-wrap;
 }
 
-.entry-tags {
-    margin-top: 0.5rem;
+.entry-tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
 }
 
 .tag {
-    display: inline-block;
-    background-color: #e3f2fd;
+    background: #e3f2fd;
     color: #1976d2;
-    padding: 0.2rem 0.5rem;
-    border-radius: 15px;
-    margin-right: 0.5rem;
-    font-size: 0.9rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
 }
 
+/* Scrollbar styling */
+.journal-entries::-webkit-scrollbar {
+    width: 6px;
+}
+
+.journal-entries::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.journal-entries::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.journal-entries::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+/* Empty state */
 .no-entries {
     text-align: center;
     color: #666;
     font-style: italic;
-    margin-top: 2rem;
+    padding: 2rem;
 }
 
+/* Save confirmation */
 .save-confirmation {
     position: fixed;
     bottom: 2rem;
     right: 2rem;
-    background-color: #4caf50;
+    background: #4caf50;
     color: white;
     padding: 1rem 2rem;
-    border-radius: 5px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     animation: slideIn 0.3s ease-out;
 }
 
@@ -207,51 +321,6 @@ section.active {
         transform: translateY(0);
         opacity: 1;
     }
-}
-
-.journal-container textarea {
-    width: 100%;
-    height: 200px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    resize: vertical;
-    font-family: inherit;
-    font-size: 1rem;
-    line-height: 1.6;
-    transition: border-color 0.3s ease;
-}
-
-.journal-container textarea:focus {
-    outline: none;
-    border-color: #4a90e2;
-    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
-}
-
-/* Add styles for message bubbles */
-.message {
-    margin-bottom: 1rem;
-    max-width: 80%;
-}
-
-.message.user {
-    margin-left: auto;
-}
-
-.message-content {
-    padding: 0.8rem;
-    border-radius: 15px;
-}
-
-.message.user .message-content {
-    background-color: #4a90e2;
-    color: white;
-}
-
-.message.ai .message-content {
-    background-color: #e9ecef;
-    color: #333;
 }
 
 .mood-slider-container {
@@ -360,98 +429,175 @@ button:hover {
     transform: translateY(-2px);
 }
 
-/* Book-style Journal */
+/* Updated Journal Styles */
 .book-container {
-    perspective: 1000px;
+    max-width: 1000px;
+    margin: 0 auto;
     padding: 2rem;
+    perspective: 1500px;
 }
 
 .book {
     position: relative;
     width: 100%;
-    max-width: 800px;
     height: 600px;
-    margin: 0 auto;
     transform-style: preserve-3d;
-    transition: transform 0.8s ease;
-}
-
-.book-cover {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: #8b4513;
-    border-radius: 2px 20px 20px 2px;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #f0e6d9;
-    transform-origin: left;
-    transition: transform 0.8s ease;
-    cursor: pointer;
 }
 
 .book-content {
-    background: #f0e6d9;
     display: flex;
+    width: 100%;
     height: 100%;
-    overflow: hidden;
+    background: white;
+    border-radius: 4px;
 }
 
 .page {
     flex: 1;
     padding: 2rem;
-    overflow-y: auto;
+    background: #fff;
+    border-radius: 4px;
 }
 
 .left-page {
-    border-right: 2px solid #8b4513;
-}
-
-.journal-entries {
-    height: 100%;
+    border-right: 1px solid #e0e0e0;
+    background: #fafafa;
     overflow-y: auto;
-    padding-right: 1rem;
 }
 
-.journal-entry {
+.right-page {
     background: white;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.new-entry-page {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .entry-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin-bottom: 1rem;
-}
-
-.entry-header h3 {
-    margin: 0;
-    color: #8b4513;
-}
-
-.entry-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+#entry-title {
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    border: none;
+    border-bottom: 2px solid #e0e0e0;
+    width: 70%;
+    font-family: 'Segoe UI', sans-serif;
+    transition: border-color 0.3s;
+}
+
+#entry-title:focus {
+    outline: none;
+    border-bottom-color: #4a90e2;
+}
+
+.date-stamp {
     color: #666;
     font-size: 0.9rem;
+}
+
+#journal-entry {
+    flex-grow: 1;
+    padding: 1rem;
+    border: none;
+    resize: none;
+    font-size: 1rem;
+    line-height: 1.6;
+    font-family: 'Segoe UI', sans-serif;
+    background: #fff;
+}
+
+#journal-entry:focus {
+    outline: none;
+}
+
+.entry-footer {
+    padding: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #e0e0e0;
+}
+
+.save-btn {
+    padding: 0.8rem 2rem;
+    background: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.save-btn:hover {
+    background: #357abd;
+    transform: translateY(-2px);
+}
+
+.entry-tags {
+    flex-grow: 1;
+    margin-left: 1rem;
+}
+
+#entry-tags {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+/* Journal entries list styling */
+.journal-entries {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.journal-entry {
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.journal-entry:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.entry-title {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.entry-timestamp {
+    font-size: 0.85rem;
+    color: #666;
     margin-bottom: 1rem;
 }
 
 .entry-content {
-    white-space: pre-wrap;
+    color: #34495e;
     line-height: 1.6;
     margin-bottom: 1rem;
 }
 
-.entry-tags {
+.entry-tags-list {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
@@ -462,55 +608,68 @@ button:hover {
     color: #1976d2;
     padding: 0.2rem 0.8rem;
     border-radius: 15px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
-.delete-btn {
-    background: none;
-    border: none;
-    color: #ff4444;
-    cursor: pointer;
-    padding: 0.5rem;
-    opacity: 0.7;
-    transition: opacity 0.3s;
+/* Scrollbar styling */
+.journal-entries::-webkit-scrollbar {
+    width: 6px;
 }
 
-.delete-btn:hover {
-    opacity: 1;
+.journal-entries::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.journal-entries::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.journal-entries::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
 }
 
 .save-confirmation {
     position: fixed;
     bottom: 2rem;
     right: 2rem;
-    background: #4caf50;
+    background-color: #4caf50;
     color: white;
     padding: 1rem 2rem;
     border-radius: 5px;
     animation: slideIn 0.3s ease-out;
 }
 
-#entry-title {
+@keyframes slideIn {
+    from {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.journal-container textarea {
     width: 100%;
-    padding: 0.5rem;
+    height: 200px;
+    padding: 1rem;
     margin-bottom: 1rem;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1.2rem;
+    border-radius: 5px;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.6;
+    transition: border-color 0.3s ease;
 }
 
-#entry-tags {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.no-entries {
-    text-align: center;
-    color: #666;
-    font-style: italic;
-    margin-top: 2rem;
+.journal-container textarea:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
 }
 
 /* Add these new styles */
@@ -1654,4 +1813,456 @@ nav ul li a:hover {
     background: white;
     border-radius: 15px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Dark theme variables */
+:root {
+    --bg-primary: #f0f2f5;
+    --bg-secondary: #ffffff;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --accent-color: #4a90e2;
+    --accent-hover: #357abd;
+    --border-color: #e0e0e0;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --card-bg: #ffffff;
+}
+
+[data-theme="dark"] {
+    --bg-primary: #121212;
+    --bg-secondary: #1e1e1e;
+    --bg-tertiary: #2d2d2d;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --accent-color: #64b5f6;
+    --accent-hover: #90caf9;
+    --border-color: #2d2d2d;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --card-bg: linear-gradient(145deg, #1e1e1e, #232323);
+    --hover-bg: #2d2d2d;
+    --input-bg: #232323;
+    --nav-hover: rgba(255, 255, 255, 0.1);
+    --scrollbar-bg: #2d2d2d;
+    --scrollbar-thumb: #404040;
+    --mood-slider-bg: linear-gradient(to right, #ff6b6b88, #ffd93d88, #6dd5ed88);
+}
+
+/* Update existing styles to use variables */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+header {
+    background-color: var(--bg-secondary);
+    box-shadow: 0 2px 5px var(--shadow-color);
+}
+
+section {
+    background-color: var(--bg-secondary);
+    box-shadow: 0 2px 5px var(--shadow-color);
+}
+
+/* Theme toggle button */
+.theme-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    width: 56px;
+    height: 28px;
+    border-radius: 14px;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.toggle-track {
+    background: #4a90e2;
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6px;
+    box-sizing: border-box;
+}
+
+[data-theme="dark"] .toggle-track {
+    background: #2d2d2d;
+}
+
+.toggle-sun, .toggle-moon {
+    font-size: 14px;
+    line-height: 1;
+    transition: transform 0.3s ease;
+}
+
+.toggle-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: white;
+    transition: transform 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .toggle-thumb {
+    transform: translateX(28px);
+}
+
+/* Update other components */
+.journal-entry, 
+.mood-slider-container,
+.breathing-exercise,
+.new-entry {
+    background: var(--card-bg);
+    color: var(--text-primary);
+}
+
+input, textarea, select {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: var(--accent-color);
+}
+
+.tag {
+    background: var(--accent-color);
+    color: var(--bg-secondary);
+}
+
+/* Update text colors */
+.entry-timestamp,
+.history-date,
+.mood-description,
+.breathing-text {
+    color: var(--text-secondary);
+}
+
+/* Update buttons */
+button {
+    background-color: var(--accent-color);
+}
+
+button:hover {
+    background-color: var(--accent-hover);
+}
+
+/* Updated dark theme styles */
+[data-theme="dark"] {
+    /* Add subtle gradient to background */
+    --bg-gradient: linear-gradient(145deg, #121212, #1a1a1a);
+}
+
+[data-theme="dark"] body {
+    background: var(--bg-gradient);
+}
+
+[data-theme="dark"] .card,
+[data-theme="dark"] .journal-entry,
+[data-theme="dark"] .mood-slider-container,
+[data-theme="dark"] .breathing-exercise {
+    background: linear-gradient(145deg, #1e1e1e, #232323);
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+    background: #232323;
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .mood-slider::-webkit-slider-thumb {
+    background: var(--accent-color);
+    border-color: var(--accent-hover);
+}
+
+[data-theme="dark"] .breathing-circle {
+    box-shadow: 0 0 30px rgba(100, 181, 246, 0.2);
+}
+
+/* Add hover effects for dark mode */
+[data-theme="dark"] .journal-entry:hover,
+[data-theme="dark"] .history-entry:hover,
+[data-theme="dark"] .breathing-exercise:hover {
+    background: var(--hover-bg);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Transition for smooth theme switching */
+body * {
+    transition: background-color 0.3s ease, 
+                color 0.3s ease, 
+                border-color 0.3s ease, 
+                box-shadow 0.3s ease;
+}
+
+/* Enhanced Dark Theme Variables */
+[data-theme="dark"] {
+    --bg-primary: #121212;
+    --bg-secondary: #1e1e1e;
+    --bg-tertiary: #2d2d2d;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --accent-color: #64b5f6;
+    --accent-hover: #90caf9;
+    --border-color: #2d2d2d;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --card-bg: linear-gradient(145deg, #1e1e1e, #232323);
+    --hover-bg: #2d2d2d;
+    --input-bg: #232323;
+    --nav-hover: rgba(255, 255, 255, 0.1);
+    --scrollbar-bg: #2d2d2d;
+    --scrollbar-thumb: #404040;
+    --mood-slider-bg: linear-gradient(to right, #ff6b6b88, #ffd93d88, #6dd5ed88);
+}
+
+/* Dark mode specific styles */
+[data-theme="dark"] {
+    /* Navigation */
+    nav ul li a {
+        color: var(--text-primary);
+    }
+
+    nav ul li a:hover {
+        background-color: var(--nav-hover);
+    }
+
+    /* Cards and containers */
+    .mood-slider-container,
+    .journal-entry,
+    .breathing-exercise,
+    .history-entry {
+        background: var(--card-bg);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--border-color);
+    }
+
+    /* Inputs */
+    input, textarea, select {
+        background: var(--input-bg);
+        border-color: var(--border-color);
+        color: var(--text-primary);
+    }
+
+    input:focus, textarea:focus, select:focus {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 2px rgba(100, 181, 246, 0.2);
+    }
+
+    /* Mood slider */
+    .mood-slider {
+        background: var(--mood-slider-bg);
+    }
+
+    .mood-slider::-webkit-slider-thumb {
+        background: var(--accent-color);
+        border-color: var(--accent-hover);
+        box-shadow: 0 0 10px rgba(100, 181, 246, 0.3);
+    }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--scrollbar-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--scrollbar-thumb);
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #505050;
+    }
+
+    /* Breathing circle */
+    .breathing-circle {
+        box-shadow: 0 0 30px rgba(100, 181, 246, 0.2);
+    }
+
+    .breathing-guide-circle {
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Hover effects */
+    .journal-entry:hover,
+    .history-entry:hover,
+    .breathing-exercise:hover {
+        background: var(--hover-bg);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Tags */
+    .tag {
+        background: rgba(100, 181, 246, 0.2);
+        color: var(--accent-color);
+    }
+
+    /* Buttons */
+    button:not(.theme-toggle) {
+        background: var(--accent-color);
+        box-shadow: 0 2px 8px rgba(100, 181, 246, 0.2);
+    }
+
+    button:not(.theme-toggle):hover {
+        background: var(--accent-hover);
+        box-shadow: 0 4px 15px rgba(100, 181, 246, 0.3);
+    }
+}
+
+/* Smooth theme transition */
+* {
+    transition: background-color 0.3s ease,
+                background-image 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease,
+                color 0.3s ease,
+                transform 0.3s ease;
+}
+
+/* Dark mode breathing exercise enhancements */
+[data-theme="dark"] {
+    /* Emotion selector dropdown */
+    #emotion-select {
+        background: var(--input-bg);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #emotion-select:hover {
+        border-color: var(--accent-color);
+    }
+
+    /* Pattern info card */
+    .pattern-info {
+        background: linear-gradient(145deg, #1e1e1e, #232323);
+        border: 1px solid var(--border-color);
+        padding: 1.5rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Breathing circle enhancements */
+    .breathing-visual {
+        background: linear-gradient(145deg, #181818, #1e1e1e);
+        border-radius: 50%;
+        padding: 2rem;
+        box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .breathing-circle {
+        box-shadow: 0 0 40px rgba(100, 181, 246, 0.3);
+    }
+
+    .breathing-circle.inhale {
+        box-shadow: 0 0 60px rgba(100, 181, 246, 0.4);
+    }
+
+    .breathing-guide-circle {
+        border: 2px dashed rgba(255, 255, 255, 0.15);
+    }
+
+    .breathing-indicator {
+        background: var(--accent-color);
+        box-shadow: 0 0 15px var(--accent-color);
+    }
+
+    /* Breathing text */
+    .breathing-text {
+        color: var(--text-primary);
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        font-size: 1.5rem;
+        font-weight: 500;
+    }
+
+    /* Stats display */
+    .breathing-stats {
+        background: rgba(0, 0, 0, 0.2);
+        padding: 1rem;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        color: var(--text-secondary);
+    }
+
+    /* Session timer */
+    .session-timer {
+        color: var(--accent-color);
+        font-weight: 500;
+        text-shadow: 0 0 10px rgba(100, 181, 246, 0.3);
+    }
+
+    /* Breathing tabs */
+    .breathing-tabs {
+        border-bottom-color: var(--border-color);
+    }
+
+    .tab-btn {
+        color: var(--text-secondary);
+    }
+
+    .tab-btn.active {
+        color: var(--accent-color);
+    }
+
+    .tab-btn::after {
+        background: var(--accent-color);
+        box-shadow: 0 0 10px var(--accent-color);
+    }
+
+    /* History entries */
+    .breathing-history .history-entry {
+        background: linear-gradient(145deg, #1e1e1e, #232323);
+        border: 1px solid var(--border-color);
+    }
+
+    .breathing-history .history-entry:hover {
+        background: var(--hover-bg);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .history-emotion {
+        color: var(--accent-color);
+    }
+
+    .history-pattern strong {
+        color: var(--text-primary);
+    }
+
+    /* No history message */
+    .no-history {
+        background: linear-gradient(145deg, #1e1e1e, #232323);
+        color: var(--text-secondary);
+        border: 1px solid var(--border-color);
+    }
+
+    /* End session button specific */
+    .end-session-btn {
+        background: #e53e3e;
+        color: white;
+        box-shadow: 0 2px 10px rgba(229, 62, 62, 0.3);
+    }
+
+    .end-session-btn:hover {
+        background: #c53030;
+        box-shadow: 0 4px 15px rgba(229, 62, 62, 0.4);
+    }
 } 

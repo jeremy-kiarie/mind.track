@@ -24,6 +24,24 @@ document.addEventListener('DOMContentLoaded', function() {
     // Show initial section based on URL hash or default to home
     const initialSection = window.location.hash.substring(1) || 'home';
     showSection(initialSection);
+
+    // Theme toggle functionality
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = themeToggle.querySelector('.theme-icon');
+    
+    // Check for saved theme preference or default to light
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+    
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+    });
 });
 
 // Remove all user-related code and simplify to core functionality
@@ -337,4 +355,17 @@ function formatDate(timestamp) {
         hour: 'numeric',
         minute: '2-digit'
     });
+}
+
+function updateThemeIcon(theme) {
+    const toggleThumb = document.querySelector('.toggle-thumb');
+    const toggleTrack = document.querySelector('.toggle-track');
+    
+    if (theme === 'dark') {
+        toggleThumb.style.transform = 'translateX(28px)';
+        toggleTrack.style.background = '#2d2d2d';
+    } else {
+        toggleThumb.style.transform = 'translateX(0)';
+        toggleTrack.style.background = '#4a90e2';
+    }
 }
