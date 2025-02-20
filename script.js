@@ -1,5 +1,16 @@
 // Add this at the beginning of your script.js
 document.addEventListener('DOMContentLoaded', function() {
+    // Show loading screen for 2 seconds
+    setTimeout(() => {
+        const loadingScreen = document.querySelector('.loading-screen');
+        loadingScreen.classList.add('fade-out');
+        
+        // Remove loading screen from DOM after fade out
+        setTimeout(() => {
+            loadingScreen.remove();
+        }, 500);
+    }, 2000);
+
     // Set up navigation
     document.querySelectorAll('nav a, .quick-actions button').forEach(element => {
         element.addEventListener('click', function(e) {
@@ -79,14 +90,17 @@ function trackMood() {
     
     // Save to localStorage
     const moods = JSON.parse(localStorage.getItem('moods') || '[]');
-    moods.push(moodEntry);
+    moods.unshift(moodEntry); // Add to beginning of array
     localStorage.setItem('moods', JSON.stringify(moods));
+    
+    // Update the display
+    updateMoodHistory();
     
     // Clear the form
     moodNotes.value = '';
     
     // Show confirmation
-    alert('Mood tracked successfully!');
+    showConfirmation('Mood tracked successfully!');
 }
 
 function getMoodText(value) {
@@ -368,4 +382,65 @@ function updateThemeIcon(theme) {
         toggleThumb.style.transform = 'translateX(0)';
         toggleTrack.style.background = '#4a90e2';
     }
+}
+
+function updateMoodHistory() {
+    const moodEntries = document.getElementById('mood-entries');
+    const moods = JSON.parse(localStorage.getItem('moods') || '[]');
+    
+    if (moods.length === 0) {
+        moodEntries.innerHTML = '<div class="no-entries">No mood entries yet</div>';
+        return;
+    }
+    
+    moodEntries.innerHTML = moods.map(entry => `
+        <div class="mood-entry">
+            <div class="mood-entry-header">
+                <span class="mood-emoji">${getMoodEmoji(entry.mood)}</span>
+                <span class="mood-text">${entry.mood}</span>
+                <span class="mood-time">${formatDate(entry.timestamp)}</span>
+            </div>
+            ${entry.notes ? `
+                <div class="mood-notes">
+                    <p>${entry.notes}</p>
+                </div>
+            ` : ''}
+            <button onclick="deleteMoodEntry(${entry.id})" class="delete-mood-btn">
+                Delete
+            </button>
+        </div>
+    `).join('');
+}
+
+function getMoodEmoji(mood) {
+    const emojis = {
+        'terrible': '😢',
+        'bad': '😔',
+        'okay': '😐',
+        'good': '🙂',
+        'great': '😊'
+    };
+    return emojis[mood] || '😐';
+}
+
+function deleteMoodEntry(id) {
+    const moods = JSON.parse(localStorage.getItem('moods') || '[]');
+    const updatedMoods = moods.filter(entry => entry.id !== id);
+    localStorage.setItem('moods', JSON.stringify(updatedMoods));
+    updateMoodHistory();
+}
+
+function showConfirmation(message) {
+    const confirmation = document.createElement('div');
+    confirmation.className = 'confirmation-toast';
+    confirmation.textContent = message;
+    document.body.appendChild(confirmation);
+    
+    setTimeout(() => {
+        confirmation.classList.add('show');
+        setTimeout(() => {
+            confirmation.classList.remove('show');
+            setTimeout(() => confirmation.remove(), 300);
+        }, 2000);
+    }, 100);
 }

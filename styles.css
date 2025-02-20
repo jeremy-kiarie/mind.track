@@ -2001,11 +2001,13 @@ button:hover {
 }
 
 /* Transition for smooth theme switching */
-body * {
-    transition: background-color 0.3s ease, 
-                color 0.3s ease, 
-                border-color 0.3s ease, 
-                box-shadow 0.3s ease;
+* {
+    transition: background-color 0.3s ease,
+                background-image 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease,
+                color 0.3s ease,
+                transform 0.3s ease;
 }
 
 /* Enhanced Dark Theme Variables */
@@ -2026,113 +2028,6 @@ body * {
     --scrollbar-bg: #2d2d2d;
     --scrollbar-thumb: #404040;
     --mood-slider-bg: linear-gradient(to right, #ff6b6b88, #ffd93d88, #6dd5ed88);
-}
-
-/* Dark mode specific styles */
-[data-theme="dark"] {
-    /* Navigation */
-    nav ul li a {
-        color: var(--text-primary);
-    }
-
-    nav ul li a:hover {
-        background-color: var(--nav-hover);
-    }
-
-    /* Cards and containers */
-    .mood-slider-container,
-    .journal-entry,
-    .breathing-exercise,
-    .history-entry {
-        background: var(--card-bg);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        border: 1px solid var(--border-color);
-    }
-
-    /* Inputs */
-    input, textarea, select {
-        background: var(--input-bg);
-        border-color: var(--border-color);
-        color: var(--text-primary);
-    }
-
-    input:focus, textarea:focus, select:focus {
-        border-color: var(--accent-color);
-        box-shadow: 0 0 0 2px rgba(100, 181, 246, 0.2);
-    }
-
-    /* Mood slider */
-    .mood-slider {
-        background: var(--mood-slider-bg);
-    }
-
-    .mood-slider::-webkit-slider-thumb {
-        background: var(--accent-color);
-        border-color: var(--accent-hover);
-        box-shadow: 0 0 10px rgba(100, 181, 246, 0.3);
-    }
-
-    /* Scrollbars */
-    ::-webkit-scrollbar {
-        width: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-        background: var(--scrollbar-bg);
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background: var(--scrollbar-thumb);
-        border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-        background: #505050;
-    }
-
-    /* Breathing circle */
-    .breathing-circle {
-        box-shadow: 0 0 30px rgba(100, 181, 246, 0.2);
-    }
-
-    .breathing-guide-circle {
-        border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    /* Hover effects */
-    .journal-entry:hover,
-    .history-entry:hover,
-    .breathing-exercise:hover {
-        background: var(--hover-bg);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-    }
-
-    /* Tags */
-    .tag {
-        background: rgba(100, 181, 246, 0.2);
-        color: var(--accent-color);
-    }
-
-    /* Buttons */
-    button:not(.theme-toggle) {
-        background: var(--accent-color);
-        box-shadow: 0 2px 8px rgba(100, 181, 246, 0.2);
-    }
-
-    button:not(.theme-toggle):hover {
-        background: var(--accent-hover);
-        box-shadow: 0 4px 15px rgba(100, 181, 246, 0.3);
-    }
-}
-
-/* Smooth theme transition */
-* {
-    transition: background-color 0.3s ease,
-                background-image 0.3s ease,
-                border-color 0.3s ease,
-                box-shadow 0.3s ease,
-                color 0.3s ease,
-                transform 0.3s ease;
 }
 
 /* Dark mode breathing exercise enhancements */
@@ -2265,4 +2160,200 @@ body * {
         background: #c53030;
         box-shadow: 0 4px 15px rgba(229, 62, 62, 0.4);
     }
+}
+
+/* Loading Screen Styles */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease-out;
+}
+
+.loading-screen.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loading-content {
+    text-align: center;
+}
+
+.loading-logo {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+.mind {
+    color: var(--accent-color);
+}
+
+.track {
+    color: var(--text-primary);
+}
+
+.loading-circle {
+    width: 60px;
+    height: 60px;
+    border: 4px solid var(--border-color);
+    border-top-color: var(--accent-color);
+    border-radius: 50%;
+    margin: 0 auto 2rem;
+    animation: spin 1s linear infinite;
+}
+
+.loading-message {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    opacity: 0;
+    animation: pulse 2s ease infinite, fadeIn 0.5s ease forwards 0.8s;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Dark mode enhancements for loading screen */
+[data-theme="dark"] .loading-screen {
+    background: linear-gradient(145deg, #121212, #1a1a1a);
+}
+
+[data-theme="dark"] .loading-circle {
+    box-shadow: 0 0 20px rgba(100, 181, 246, 0.2);
+}
+
+[data-theme="dark"] .loading-message {
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Mood History Styles */
+.mood-entry {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.mood-entry:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.mood-entry-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.mood-emoji {
+    font-size: 1.8rem;
+}
+
+.mood-text {
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.mood-time {
+    margin-left: auto;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.mood-notes {
+    color: var(--text-secondary);
+    background: var(--bg-secondary);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+}
+
+.delete-mood-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.delete-mood-btn:hover {
+    color: #e53e3e;
+    background: rgba(229, 62, 62, 0.1);
+}
+
+.no-entries {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 2rem;
+    background: var(--card-bg);
+    border-radius: 15px;
+    font-style: italic;
+}
+
+/* Confirmation Toast */
+.confirmation-toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--accent-color);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.confirmation-toast.show {
+    transform: translateY(0);
+    opacity: 1;
 } 
