@@ -88,9 +88,11 @@ section.active {
 }
 
 .chat-container {
-    height: 500px;
-    display: flex;
-    flex-direction: column;
+    height: auto;
+    display: block;
+    padding: 0;
+    background: none;
+    box-shadow: none;
 }
 
 .chat-messages {
@@ -1105,4 +1107,300 @@ textarea {
 .progress-step.completed {
     background: #4caf50;
     color: white;
+}
+
+/* Add these new styles for the breathing exercise */
+#breathing-container {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+    border-radius: 20px;
+}
+
+.breathing-exercise {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+.breathing-circle {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: var(--pattern-color, #4a90e2);
+    margin: 3rem 0;
+    transition: all 2s ease-in-out; /* Slower animation */
+    box-shadow: 0 0 30px rgba(74, 144, 226, 0.3);
+    position: relative;
+}
+
+.breathing-circle::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border-radius: 50%;
+    border: 2px solid var(--pattern-color, #4a90e2);
+    opacity: 0.5;
+    animation: pulse 4s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.2; }
+    100% { transform: scale(1); opacity: 0.5; }
+}
+
+.breathing-circle.inhale {
+    transform: scale(1.4);
+    background: var(--pattern-color, #64b5f6);
+}
+
+.breathing-circle.hold {
+    transform: scale(1.4);
+    background: var(--pattern-color, #2196f3);
+}
+
+.breathing-circle.exhale {
+    transform: scale(1);
+    background: var(--pattern-color, #4a90e2);
+}
+
+.breathing-text {
+    font-size: 2rem;
+    margin: 1.5rem 0;
+    color: #2c3e50;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.breathing-stats {
+    display: flex;
+    gap: 3rem;
+    margin: 1.5rem 0;
+    color: #34495e;
+    font-size: 1.1rem;
+}
+
+.start-breathing-btn {
+    padding: 1.2rem 2.5rem;
+    font-size: 1.3rem;
+    margin: 2rem 0;
+    background: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.start-breathing-btn:hover {
+    background: #43a047;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.session-timer {
+    font-size: 1.4rem;
+    color: #34495e;
+    margin-top: 1.5rem;
+    font-weight: 500;
+}
+
+.mood-indicator {
+    font-size: 1.3rem;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    padding: 0.8rem 1.5rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Add these new styles for the emotion selector */
+.emotion-selector {
+    margin-bottom: 2rem;
+    width: 100%;
+    max-width: 400px;
+}
+
+#emotion-select {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.2rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 15px;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#emotion-select:hover {
+    border-color: #4a90e2;
+}
+
+#emotion-select:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+.pattern-info {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.pattern-info h3 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-size: 1.4rem;
+}
+
+.pattern-info p {
+    color: #34495e;
+    font-size: 1.1rem;
+}
+
+/* Update breathing circle styles to use custom colors */
+.breathing-circle {
+    background: var(--pattern-color, #4a90e2);
+}
+
+.breathing-circle::after {
+    border-color: var(--pattern-color, #4a90e2);
+}
+
+.breathing-circle.inhale {
+    background: var(--pattern-color, #64b5f6);
+}
+
+.breathing-circle.hold {
+    background: var(--pattern-color, #2196f3);
+}
+
+.breathing-circle.exhale {
+    background: var(--pattern-color, #4a90e2);
+}
+
+/* Add these new styles */
+.next-step-btn {
+    margin-top: 1.5rem;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    background: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.next-step-btn:hover {
+    background: #357abd;
+    transform: translateY(-2px);
+}
+
+.next-step-btn .arrow {
+    font-size: 1.4rem;
+    transition: transform 0.3s ease;
+}
+
+.next-step-btn:hover .arrow {
+    transform: translateX(5px);
+}
+
+.breathing-visual {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 2rem auto;
+}
+
+.breathing-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: var(--pattern-color, #4a90e2);
+    transition: all 4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.breathing-guide-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    border: 2px dashed rgba(74, 144, 226, 0.3);
+}
+
+.breathing-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.breathing-circle.inhale {
+    transform: translate(-50%, -50%) scale(1.4);
+    background: var(--pattern-color, #64b5f6);
+}
+
+.breathing-circle.hold {
+    transform: translate(-50%, -50%) scale(1.4);
+    background: var(--pattern-color, #2196f3);
+}
+
+.breathing-circle.exhale {
+    transform: translate(-50%, -50%) scale(1);
+    background: var(--pattern-color, #4a90e2);
+}
+
+@keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+    50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.2; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+}
+
+.breathing-circle::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border-radius: 50%;
+    border: 2px solid var(--pattern-color, #4a90e2);
+    opacity: 0.5;
+    animation: pulse 4s infinite;
 } 

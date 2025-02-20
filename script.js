@@ -949,3 +949,198 @@ async function handleLogin(event) {
         errorElement.textContent = 'An error occurred. Please try again.';
     }
 }
+
+function getBreathingPattern(mood) {
+    // Different patterns based on mood
+    const patterns = {
+        terrible: { inhale: 4, hold: 7, exhale: 8 }, // 4-7-8 for anxiety/stress
+        bad: { inhale: 4, hold: 4, exhale: 4 }, // Box breathing
+        okay: { inhale: 4, hold: 0, exhale: 4 }, // Basic balanced breathing
+        good: { inhale: 5, hold: 0, exhale: 5 }, // Relaxed breathing
+        great: { inhale: 6, hold: 0, exhale: 6 } // Deep relaxation
+    };
+    return patterns[mood] || patterns.okay;
+}
+
+function startBreathingExercise(mood) {
+    const pattern = getBreathingPattern(mood);
+    const container = document.getElementById('chat-messages');
+    container.innerHTML = `
+        <div class="breathing-exercise">
+            <div class="mood-indicator">Current Mood: ${mood}</div>
+            <div class="breathing-circle"></div>
+            <div class="breathing-text">Get ready...</div>
+            <div class="breathing-stats">
+                <div>Inhale: ${pattern.inhale}s</div>
+                ${pattern.hold ? `<div>Hold: ${pattern.hold}s</div>` : ''}
+                <div>Exhale: ${pattern.exhale}s</div>
+            </div>
+            <button class="start-breathing-btn">Start Exercise</button>
+            <div class="session-timer">Session: <span>00:00</span></div>
+        </div>
+    `;
+
+    // Add event listener to start button
+    document.querySelector('.start-breathing-btn').addEventListener('click', () => {
+        runBreathingCycle(pattern);
+    });
+}
+
+function runBreathingCycle(pattern) {
+    const circle = document.querySelector('.breathing-circle');
+    const text = document.querySelector('.breathing-text');
+    const startBtn = document.querySelector('.start-breathing-btn');
+    startBtn.style.display = 'none';
+
+    let sessionTime = 0;
+    const sessionTimer = document.querySelector('.session-timer span');
+    const sessionInterval = setInterval(() => {
+        sessionTime++;
+        const minutes = Math.floor(sessionTime / 60).toString().padStart(2, '0');
+        const seconds = (sessionTime % 60).toString().padStart(2, '0');
+        sessionTimer.textContent = `${minutes}:${seconds}`;
+    }, 1000);
+
+    function breathingCycle() {
+        // Inhale
+        text.textContent = 'Inhale...';
+        circle.classList.add('inhale');
+        navigator.vibrate(200); // Short vibration for inhale start
+        
+        setTimeout(() => {
+            if (pattern.hold) {
+                // Hold
+                text.textContent = 'Hold...';
+                circle.classList.add('hold');
+                navigator.vibrate(100); // Quick pulse for hold
+                
+                setTimeout(() => {
+                    // Exhale
+                    text.textContent = 'Exhale...';
+                    circle.classList.add('exhale');
+                    navigator.vibrate([50, 50, 50]); // Triple pulse for exhale
+                    
+                    setTimeout(() => {
+                        circle.classList.remove('inhale', 'hold', 'exhale');
+                        breathingCycle(); // Repeat
+                    }, pattern.exhale * 1000);
+                }, pattern.hold * 1000);
+            } else {
+                // Exhale (no hold)
+                text.textContent = 'Exhale...';
+                circle.classList.add('exhale');
+                navigator.vibrate([50, 50, 50]); // Triple pulse for exhale
+                
+                setTimeout(() => {
+                    circle.classList.remove('inhale', 'hold', 'exhale');
+                    breathingCycle(); // Repeat
+                }, pattern.exhale * 1000);
+            }
+        }, pattern.inhale * 1000);
+    }
+
+    breathingCycle(); // Start the cycle
+}
+
+const breathingPatterns = {
+    anxious: {
+        name: "4-7-8 Breathing",
+        description: "This calming pattern helps reduce anxiety and promote relaxation",
+        inhale: 4,
+        hold: 7,
+        exhale: 8,
+        color: "#64b5f6"
+    },
+    angry: {
+        name: "Cooling Breath",
+        description: "This technique helps cool down anger and restore balance",
+        inhale: 4,
+        hold: 4,
+        exhale: 6,
+        color: "#ef5350"
+    },
+    stressed: {
+        name: "Box Breathing",
+        description: "Equal-timed breathing to reduce stress and improve focus",
+        inhale: 4,
+        hold: 4,
+        exhale: 4,
+        color: "#81c784"
+    },
+    sad: {
+        name: "Energizing Breath",
+        description: "Uplifting breathing pattern to help with low mood",
+        inhale: 5,
+        hold: 0,
+        exhale: 4,
+        color: "#7986cb"
+    },
+    overwhelmed: {
+        name: "Grounding Breath",
+        description: "Simple pattern to help you feel more grounded and present",
+        inhale: 3,
+        hold: 2,
+        exhale: 5,
+        color: "#9575cd"
+    },
+    calm: {
+        name: "Deep Relaxation",
+        description: "Gentle breathing to maintain and deepen calm",
+        inhale: 6,
+        hold: 0,
+        exhale: 6,
+        color: "#4db6ac"
+    }
+};
+
+function handleEmotionChange() {
+    const emotion = document.getElementById('emotion-select').value;
+    if (!emotion) return;
+
+    const pattern = breathingPatterns[emotion];
+    const container = document.getElementById('breathing-content');
+    const description = document.getElementById('exercise-description');
+
+    description.innerHTML = `
+        <div class="pattern-info">
+            <h3>${pattern.name}</h3>
+            <p>${pattern.description}</p>
+            <button class="next-step-btn" onclick="showBreathingCircle('${emotion}')">
+                Begin Exercise
+                <span class="arrow">→</span>
+            </button>
+        </div>
+    `;
+
+    // Clear the breathing circle container until user clicks next
+    container.innerHTML = '';
+}
+
+function showBreathingCircle(emotion) {
+    const pattern = breathingPatterns[emotion];
+    const container = document.getElementById('breathing-content');
+    
+    container.innerHTML = `
+        <div class="breathing-exercise">
+            <div class="breathing-visual">
+                <div class="breathing-circle" style="--pattern-color: ${pattern.color}">
+                    <div class="breathing-indicator"></div>
+                </div>
+                <div class="breathing-guide-circle"></div>
+            </div>
+            <div class="breathing-text">Get ready...</div>
+            <div class="breathing-stats">
+                <div>Inhale: ${pattern.inhale}s</div>
+                ${pattern.hold ? `<div>Hold: ${pattern.hold}s</div>` : ''}
+                <div>Exhale: ${pattern.exhale}s</div>
+            </div>
+            <button class="start-breathing-btn">Start Exercise</button>
+            <div class="session-timer">Session: <span>00:00</span></div>
+        </div>
+    `;
+
+    // Add event listener to start button
+    document.querySelector('.start-breathing-btn').addEventListener('click', () => {
+        runBreathingCycle(pattern);
+    });
+}

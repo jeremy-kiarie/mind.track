@@ -70,12 +70,22 @@
         </section>
 
         <section id="chat">
-            <h2>AI Counselor</h2>
-            <div class="chat-container">
-                <div class="chat-messages" id="chat-messages"></div>
-                <div class="chat-input">
-                    <input type="text" id="user-input" placeholder="Type your message...">
-                    <button onclick="sendMessage()">Send</button>
+            <h2>Breathing Exercise</h2>
+            <div id="breathing-container">
+                <div class="emotion-selector">
+                    <select id="emotion-select" onchange="handleEmotionChange()">
+                        <option value="">Select how you're feeling...</option>
+                        <option value="anxious">Anxious</option>
+                        <option value="angry">Angry</option>
+                        <option value="stressed">Stressed</option>
+                        <option value="sad">Sad</option>
+                        <option value="overwhelmed">Overwhelmed</option>
+                        <option value="calm">Seeking Calm</option>
+                    </select>
+                </div>
+                <div id="exercise-description"></div>
+                <div id="breathing-content">
+                    <!-- Breathing exercise will be inserted here -->
                 </div>
             </div>
         </section>
