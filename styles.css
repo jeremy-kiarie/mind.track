@@ -319,6 +319,7 @@ section.active {
     width: 100%;
     height: 6px;
     -webkit-appearance: none;
+    appearance: none;
     background: linear-gradient(to right, #ff6b6b, #ffd93d, #6dd5ed);
     border-radius: 3px;
     outline: none;
