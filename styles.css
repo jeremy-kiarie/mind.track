@@ -1341,9 +1341,14 @@ textarea {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
-    background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
-    border-radius: 20px;
+    padding: 3rem;
+    background: linear-gradient(145deg, #f5f7fa, #e4e9f2);
+    border-radius: 30px;
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.1),
+        inset 0 0 50px rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .breathing-exercise {
@@ -1355,49 +1360,45 @@ textarea {
     text-align: center;
 }
 
+.breathing-visual {
+    position: relative;
+    width: 350px;
+    height: 350px;
+    margin: 2rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    padding: 2rem;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 0 30px rgba(255, 255, 255, 0.2);
+}
+
 .breathing-circle {
     width: 250px;
     height: 250px;
     border-radius: 50%;
-    background: var(--pattern-color, #4a90e2);
-    margin: 3rem 0;
-    transition: all 2s ease-in-out; /* Slower animation */
-    box-shadow: 0 0 30px rgba(74, 144, 226, 0.3);
-    position: relative;
+    background: linear-gradient(145deg, var(--pattern-color), rgba(255, 255, 255, 0.2));
+    box-shadow: 
+        0 0 40px var(--pattern-color),
+        inset 0 0 20px rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(5px);
 }
 
-.breathing-circle::after {
-    content: '';
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
+.breathing-guide-circle {
+    width: 320px;
+    height: 320px;
+    border: 3px dashed rgba(255, 255, 255, 0.3);
     border-radius: 50%;
-    border: 2px solid var(--pattern-color, #4a90e2);
-    opacity: 0.5;
-    animation: pulse 4s infinite;
+    position: absolute;
+    animation: rotate 60s linear infinite;
 }
 
-@keyframes pulse {
-    0% { transform: scale(1); opacity: 0.5; }
-    50% { transform: scale(1.1); opacity: 0.2; }
-    100% { transform: scale(1); opacity: 0.5; }
-}
-
-.breathing-circle.inhale {
-    transform: scale(1.4);
-    background: var(--pattern-color, #64b5f6);
-}
-
-.breathing-circle.hold {
-    transform: scale(1.4);
-    background: var(--pattern-color, #2196f3);
-}
-
-.breathing-circle.exhale {
-    transform: scale(1);
-    background: var(--pattern-color, #4a90e2);
+@keyframes rotate {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 .breathing-text {
@@ -1552,13 +1553,6 @@ textarea {
 
 .next-step-btn:hover .arrow {
     transform: translateX(5px);
-}
-
-.breathing-visual {
-    position: relative;
-    width: 300px;
-    height: 300px;
-    margin: 2rem auto;
 }
 
 .breathing-circle {
@@ -2151,12 +2145,12 @@ button:hover {
     }
 
     ::-webkit-scrollbar-thumb {
-        background: linear-gradient(135deg, #404040, #505050);
+        background: linear-gradient(145deg, #404040, #505050);
         border-radius: 4px;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(135deg, #505050, #606060);
+        background: linear-gradient(145deg, #505050, #606060);
     }
 }
 
@@ -2370,26 +2364,28 @@ button:hover {
 /* Enhanced Dark Mode for Breathing Exercises */
 [data-theme="dark"] #breathing-container {
     background: linear-gradient(145deg, #1a1a1a, #232323);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.4),
+        inset 0 0 50px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+[data-theme="dark"] .breathing-visual {
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 0 30px rgba(255, 255, 255, 0.05);
+}
+
 [data-theme="dark"] .breathing-circle {
-    background: linear-gradient(145deg, var(--pattern-color), rgba(0, 0, 0, 0.3));
+    background: linear-gradient(145deg, var(--pattern-color), rgba(0, 0, 0, 0.5));
     box-shadow: 
         0 0 60px var(--pattern-color),
         inset 0 0 30px rgba(255, 255, 255, 0.1);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-}
-
-[data-theme="dark"] .breathing-circle.inhale {
-    box-shadow: 
-        0 0 100px var(--pattern-color),
-        inset 0 0 50px rgba(255, 255, 255, 0.2);
 }
 
 [data-theme="dark"] .breathing-guide-circle {
-    border: 2px dashed rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.1);
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
 }
 
@@ -2442,4 +2438,114 @@ button:hover {
 [data-theme="dark"] .session-timer {
     color: var(--accent-color);
     text-shadow: 0 0 15px var(--glow-color);
+}
+
+/* Enhanced Dark Mode for Journal */
+[data-theme="dark"] .journal-grid {
+    gap: 3rem;
+}
+
+[data-theme="dark"] .journal-entries,
+[data-theme="dark"] .new-entry {
+    background: linear-gradient(145deg, #1e1e1e, #232323);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] #entry-title {
+    background: rgba(35, 35, 35, 0.8);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] #journal-entry {
+    background: rgba(35, 35, 35, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] #entry-tags {
+    background: rgba(35, 35, 35, 0.8);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] #entry-title:focus,
+[data-theme="dark"] #journal-entry:focus,
+[data-theme="dark"] #entry-tags:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 15px var(--glow-color);
+}
+
+[data-theme="dark"] .journal-entry {
+    background: linear-gradient(145deg, #1e1e1e, #232323);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .journal-entry:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    background: var(--hover-bg);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .entry-title {
+    color: var(--text-primary);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .entry-timestamp {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .entry-content {
+    color: var(--text-secondary);
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .tag {
+    background: rgba(100, 181, 246, 0.2);
+    color: var(--accent-color);
+    border: 1px solid rgba(100, 181, 246, 0.3);
+}
+
+[data-theme="dark"] .save-btn {
+    background: linear-gradient(145deg, var(--accent-color), #5c9ce5);
+    box-shadow: 0 4px 15px var(--glow-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .save-btn:hover {
+    background: linear-gradient(145deg, #5c9ce5, var(--accent-hover));
+    box-shadow: 0 8px 25px var(--glow-color);
+    transform: translateY(-2px);
+}
+
+[data-theme="dark"] .entry-footer {
+    border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .no-entries {
+    background: linear-gradient(145deg, #1e1e1e, #232323);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+}
+
+/* Dark mode scrollbar for journal */
+[data-theme="dark"] .journal-entries::-webkit-scrollbar-track {
+    background: var(--scrollbar-bg);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .journal-entries::-webkit-scrollbar-thumb {
+    background: linear-gradient(145deg, #404040, #505050);
+    border-radius: 4px;
+}
+
+[data-theme="dark"] .journal-entries::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(145deg, #505050, #606060);
 } 
