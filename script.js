@@ -444,3 +444,197 @@ function showConfirmation(message) {
         }, 2000);
     }, 100);
 }
+
+// Assessment Data
+const assessments = {
+    anxiety: {
+        title: "Anxiety Assessment (GAD-7)",
+        description: "Over the last 2 weeks, how often have you been bothered by the following problems?",
+        questions: [
+            "Feeling nervous, anxious, or on edge",
+            "Not being able to stop or control worrying",
+            "Worrying too much about different things",
+            "Trouble relaxing",
+            "Being so restless that it's hard to sit still",
+            "Becoming easily annoyed or irritable",
+            "Feeling afraid as if something awful might happen"
+        ],
+        options: [
+            { text: "Not at all", value: 0 },
+            { text: "Several days", value: 1 },
+            { text: "More than half the days", value: 2 },
+            { text: "Nearly every day", value: 3 }
+        ],
+        getResult: (score) => {
+            if (score >= 15) return { level: "Severe anxiety", recommendation: "Please consider seeking professional help immediately." };
+            if (score >= 10) return { level: "Moderate anxiety", recommendation: "Consider consulting a mental health professional." };
+            if (score >= 5) return { level: "Mild anxiety", recommendation: "Monitor your symptoms and practice self-care." };
+            return { level: "Minimal anxiety", recommendation: "Continue maintaining your mental well-being." };
+        }
+    },
+    depression: {
+        title: "Depression Screening (PHQ-9)",
+        description: "Over the last 2 weeks, how often have you been bothered by the following problems?",
+        questions: [
+            "Little interest or pleasure in doing things",
+            "Feeling down, depressed, or hopeless",
+            "Trouble falling/staying asleep, sleeping too much",
+            "Feeling tired or having little energy",
+            "Poor appetite or overeating",
+            "Feeling bad about yourself or that you're a failure",
+            "Trouble concentrating on things",
+            "Moving or speaking slowly/being fidgety or restless",
+            "Thoughts that you would be better off dead or of hurting yourself"
+        ],
+        options: [
+            { text: "Not at all", value: 0 },
+            { text: "Several days", value: 1 },
+            { text: "More than half the days", value: 2 },
+            { text: "Nearly every day", value: 3 }
+        ],
+        getResult: (score) => {
+            if (score >= 20) return { level: "Severe depression", recommendation: "Please seek professional help immediately." };
+            if (score >= 15) return { level: "Moderately severe depression", recommendation: "Strongly consider consulting a mental health professional." };
+            if (score >= 10) return { level: "Moderate depression", recommendation: "Consider speaking with a mental health professional." };
+            if (score >= 5) return { level: "Mild depression", recommendation: "Monitor your mood and practice self-care." };
+            return { level: "Minimal depression", recommendation: "Continue maintaining your mental well-being." };
+        }
+    },
+    stress: {
+        title: "Stress Level Check (PSS-10)",
+        description: "In the last month, how often have you...",
+        questions: [
+            "Been upset because of something that happened unexpectedly?",
+            "Felt that you were unable to control the important things in your life?",
+            "Felt nervous and stressed?",
+            "Felt confident about your ability to handle personal problems?",
+            "Felt that things were going your way?",
+            "Found that you could not cope with all the things you had to do?",
+            "Been able to control irritations in your life?",
+            "Felt that you were on top of things?",
+            "Been angered because of things that happened outside of your control?",
+            "Felt difficulties were piling up so high that you could not overcome them?"
+        ],
+        options: [
+            { text: "Never", value: 0 },
+            { text: "Almost Never", value: 1 },
+            { text: "Sometimes", value: 2 },
+            { text: "Fairly Often", value: 3 },
+            { text: "Very Often", value: 4 }
+        ],
+        getResult: (score) => {
+            if (score >= 27) return { level: "High stress", recommendation: "Consider seeking professional support to manage stress." };
+            if (score >= 14) return { level: "Moderate stress", recommendation: "Practice stress management techniques and monitor your stress levels." };
+            return { level: "Low stress", recommendation: "Continue your current stress management practices." };
+        }
+    },
+    wellbeing: {
+        title: "Well-being Index (WHO-5)",
+        description: "Over the last 2 weeks...",
+        questions: [
+            "I have felt cheerful and in good spirits",
+            "I have felt calm and relaxed",
+            "I have felt active and vigorous",
+            "I woke up feeling fresh and rested",
+            "My daily life has been filled with things that interest me"
+        ],
+        options: [
+            { text: "At no time", value: 0 },
+            { text: "Some of the time", value: 1 },
+            { text: "Less than half the time", value: 2 },
+            { text: "More than half the time", value: 3 },
+            { text: "Most of the time", value: 4 },
+            { text: "All the time", value: 5 }
+        ],
+        getResult: (score) => {
+            const percentage = (score / 25) * 100;
+            if (percentage <= 28) return { level: "Low well-being", recommendation: "Consider seeking professional support to improve your well-being." };
+            if (percentage <= 50) return { level: "Moderate well-being", recommendation: "Consider ways to enhance your daily well-being." };
+            return { level: "Good well-being", recommendation: "Continue maintaining your positive well-being practices." };
+        }
+    }
+};
+
+function startAssessment(type) {
+    const assessment = assessments[type];
+    const modal = document.getElementById('assessment-modal');
+    const title = document.getElementById('assessment-title');
+    const description = document.getElementById('assessment-description');
+    const questions = document.getElementById('assessment-questions');
+    
+    title.textContent = assessment.title;
+    description.textContent = assessment.description;
+    
+    questions.innerHTML = assessment.questions.map((question, index) => `
+        <div class="question-container">
+            <p class="question-text">${index + 1}. ${question}</p>
+            <div class="options-container">
+                ${assessment.options.map(option => `
+                    <label class="option-label">
+                        <input type="radio" name="q${index}" value="${option.value}" required>
+                        ${option.text}
+                    </label>
+                `).join('')}
+            </div>
+        </div>
+    `).join('');
+    
+    modal.style.display = 'block';
+    document.getElementById('assessment-result').style.display = 'none';
+    
+    // Set up form submission
+    const form = document.getElementById('assessment-form');
+    form.onsubmit = (e) => {
+        e.preventDefault();
+        submitAssessment(type);
+    };
+}
+
+function submitAssessment(type) {
+    const assessment = assessments[type];
+    const form = document.getElementById('assessment-form');
+    const result = document.getElementById('assessment-result');
+    const resultContent = document.getElementById('result-content');
+    const recommendations = document.getElementById('result-recommendations');
+    
+    // Calculate score
+    let score = 0;
+    assessment.questions.forEach((_, index) => {
+        const selected = form.querySelector(`input[name="q${index}"]:checked`);
+        if (selected) {
+            score += parseInt(selected.value);
+        }
+    });
+    
+    // Get result based on score
+    const assessmentResult = assessment.getResult(score);
+    
+    // Display result
+    resultContent.innerHTML = `
+        <p>Your score: ${score}</p>
+        <p>Level: ${assessmentResult.level}</p>
+    `;
+    recommendations.innerHTML = `
+        <h4>Recommendations:</h4>
+        <p>${assessmentResult.recommendation}</p>
+    `;
+    
+    form.style.display = 'none';
+    result.style.display = 'block';
+}
+
+function closeAssessment() {
+    const modal = document.getElementById('assessment-modal');
+    const form = document.getElementById('assessment-form');
+    modal.style.display = 'none';
+    form.style.display = 'block';
+}
+
+// Close modal when clicking the X or outside the modal
+document.querySelector('.close-modal').onclick = closeAssessment;
+window.onclick = (event) => {
+    const modal = document.getElementById('assessment-modal');
+    if (event.target === modal) {
+        closeAssessment();
+    }
+};

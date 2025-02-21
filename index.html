@@ -29,6 +29,8 @@
                 <li><a href="#tracker">Mood Tracker</a></li>
                 <li><a href="#chat">Breathing Exercises</a></li>
                 <li><a href="#journal">Journal</a></li>
+                <li><a href="#assessment">Self Assessment</a></li>
+                <li><a href="#crisis">Crisis Support</a></li>
             </ul>
             <button id="theme-toggle" class="theme-toggle">
                 <div class="toggle-track">
@@ -141,6 +143,100 @@
                                 <button onclick="saveJournalEntry()" class="save-btn">Save Entry</button>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="assessment">
+            <h2>Self Assessment Tools</h2>
+            <div class="assessment-container">
+                <div class="assessment-card">
+                    <h3>Anxiety Assessment (GAD-7)</h3>
+                    <p>A validated tool to screen for Generalized Anxiety Disorder</p>
+                    <button onclick="startAssessment('anxiety')" class="start-assessment-btn">Start Assessment</button>
+                </div>
+                <div class="assessment-card">
+                    <h3>Depression Screening (PHQ-9)</h3>
+                    <p>Patient Health Questionnaire for depression screening</p>
+                    <button onclick="startAssessment('depression')" class="start-assessment-btn">Start Assessment</button>
+                </div>
+                <div class="assessment-card">
+                    <h3>Stress Level Check (PSS-10)</h3>
+                    <p>Perceived Stress Scale to evaluate current stress levels</p>
+                    <button onclick="startAssessment('stress')" class="start-assessment-btn">Start Assessment</button>
+                </div>
+                <div class="assessment-card">
+                    <h3>Well-being Index (WHO-5)</h3>
+                    <p>WHO Well-Being Index for mental health screening</p>
+                    <button onclick="startAssessment('wellbeing')" class="start-assessment-btn">Start Assessment</button>
+                </div>
+            </div>
+
+            <!-- Assessment Modal -->
+            <div id="assessment-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <h3 id="assessment-title"></h3>
+                    <p id="assessment-description" class="modal-description"></p>
+                    <form id="assessment-form">
+                        <div id="assessment-questions"></div>
+                        <button type="submit" class="submit-assessment-btn">Submit Assessment</button>
+                    </form>
+                    <div id="assessment-result" class="assessment-result" style="display: none;">
+                        <h4>Your Results</h4>
+                        <div id="result-content"></div>
+                        <div id="result-recommendations"></div>
+                        <button onclick="closeAssessment()" class="close-result-btn">Close</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="crisis">
+            <h2>Crisis Support Resources</h2>
+            <div class="crisis-container">
+                <div class="emergency-box">
+                    <h3>Emergency Numbers</h3>
+                    <div class="emergency-numbers">
+                        <div class="emergency-item">
+                            <strong>Emergency Services:</strong>
+                            <span>911</span>
+                        </div>
+                        <div class="emergency-item">
+                            <strong>National Suicide Prevention Lifeline:</strong>
+                            <span>988 or 1-800-273-8255</span>
+                        </div>
+                        <div class="emergency-item">
+                            <strong>Crisis Text Line:</strong>
+                            <span>Text HOME to 741741</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <h4>Mental Health Support</h4>
+                        <ul>
+                            <li><a href="https://www.nami.org/help" target="_blank" rel="noopener">NAMI HelpLine</a></li>
+                            <li><a href="https://www.samhsa.gov/find-help/national-helpline" target="_blank" rel="noopener">SAMHSA's National Helpline</a></li>
+                        </ul>
+                    </div>
+                    <div class="resource-card">
+                        <h4>Online Support Communities</h4>
+                        <ul>
+                            <li><a href="https://www.7cups.com" target="_blank" rel="noopener">7 Cups</a></li>
+                            <li><a href="https://www.betterhelp.com/get-started/" target="_blank" rel="noopener">BetterHelp</a></li>
+                        </ul>
+                    </div>
+                    <div class="resource-card">
+                        <h4>Local Resources</h4>
+                        <ul>
+                            <li><a href="https://findtreatment.gov/" target="_blank" rel="noopener">Find Treatment Centers</a></li>
+                            <li><a href="https://www.psychologytoday.com/us/therapists" target="_blank" rel="noopener">Find Local Therapists</a></li>
+                            <li><a href="https://www.opencounseling.com/public-mental-health" target="_blank" rel="noopener">Public Mental Health Centers</a></li>
+                            <li><a href="https://www.nimh.nih.gov/health/find-help" target="_blank" rel="noopener">NIMH Help Resources</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
