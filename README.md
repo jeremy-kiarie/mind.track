@@ -166,3 +166,7 @@ const journalFeatures = {
 4. Pennebaker, J. W. (2018). Expressive Writing in Psychological Science. Perspectives on Psychological Science, 13(2), 226-229.
 
 5. Martinez, L. (2020). Digital Platforms in Mental Health Support. Technology and Health Journal, 8(1), 15-30.
+
+
+
+##BY: Jeremy Njau Kiarie
